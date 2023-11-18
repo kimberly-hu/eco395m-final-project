@@ -1,0 +1,2 @@
+googlemaps==4.10.0
+pandas==2.1.3
