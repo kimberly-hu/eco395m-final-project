@@ -83,3 +83,20 @@ CREATE TABLE review_7 (
     review_text varchar  NOT NULL,
     review_date date  NOT NULL
 );
+
+-- Create the business table
+
+CREATE TABLE business (
+    business_id varchar(22) CONSTRAINT business_id_key PRIMARY KEY,
+    name varchar NOT NULL,
+    address varchar,
+    city varchar NOT NULL,
+    state varchar NOT NULL,
+    postal_code varchar,
+    latitute numeric,
+    longitude numeric,
+    business_stars numeric,
+    review_count numeric,
+    is_open integer NOT NULL,
+    categories varchar
+);
