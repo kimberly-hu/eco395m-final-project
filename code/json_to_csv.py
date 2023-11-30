@@ -1,7 +1,6 @@
 import os
 import json
 import csv
-import pandas as pd
 from tqdm import tqdm
 
 
@@ -17,7 +16,6 @@ def process_json(json_text):
 
 def json_to_csv(input_file, output_folder, chunk_size=1000000):
     """Convert a single json file into multiple csv files. 
-    Each json object is stored as a row in the csv.
     The json objects are processed and saved in chunks."""
 
     with open(input_file, 'r', encoding='utf-8') as file:
@@ -37,7 +35,9 @@ def json_to_csv(input_file, output_folder, chunk_size=1000000):
 
 
 def process_and_save_chunk(json_objects, output_folder, file_counter):
-    """Process and save the json object chunks."""
+    """Process and save one json object chunk.
+    Each json object is stored as a single row in the csv.
+    """
 
     processed_objects = [process_json(json_text) for json_text in json_objects]
 
@@ -56,5 +56,8 @@ if __name__ == "__main__":
     base_dir = "data"
     review_json_path = os.path.join(base_dir, "yelp_academic_dataset_review.json")
     review_folder = os.path.join(base_dir, "reviews")
+
+    os.makedirs(base_dir, exist_ok=True)
+    os.makedirs(review_folder, exist_ok=True)
 
     json_to_csv(review_json_path, review_folder, chunk_size=1000000)
