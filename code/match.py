@@ -13,7 +13,9 @@ def match():
     
     q = """
         WITH cosine_table AS (
-            SELECT *, %(user_embedding)s <=> embedding AS cos_similarity
+            SELECT *,
+            (SELECT SUM(a * b) FROM unnest(:user_embedding, embedding::numeric[]) AS s(a,b)) /
+            (SELECT SQRT(SUM(a * a) * SUM(b * b)) FROM unnest(:user_embedding, embedding::numeric[]) AS s(a,b)) AS cos_similarity
             FROM california
         )
         SELECT * FROM cosine_table
@@ -21,13 +23,10 @@ def match():
         ORDER BY cos_similarity DESC
         LIMIT 20;
         """
-    
-    with engine.connect() as conn:
-        result = conn.execute(q, {"user_embedding": user_embedding_list})
 
-    # with engine.connect() as conn:
-    #     stmt = text(q).bindparams(bindparam('user_embedding', value=user_embedding_list))
-    #     result = conn.execute(stmt)
+    with engine.connect() as conn:
+        stmt = text(q).bindparams(bindparam('user_embedding', value=user_embedding_list))
+        result = conn.execute(stmt)
 
     matches = []
 
