@@ -13,7 +13,7 @@ def match():
     
     q = """
         WITH cosine_table AS (
-            SELECT *, :user_embedding <=> embedding::numeric[] AS cos_similarity
+            SELECT *, %(user_embedding)s <=> embedding AS cos_similarity
             FROM california
         )
         SELECT * FROM cosine_table
@@ -23,8 +23,11 @@ def match():
         """
     
     with engine.connect() as conn:
-        stmt = text(q).bindparams(bindparam('user_embedding', value=user_embedding_list))
-        result = conn.execute(stmt)
+        result = conn.execute(q, {"user_embedding": user_embedding_list})
+
+    # with engine.connect() as conn:
+    #     stmt = text(q).bindparams(bindparam('user_embedding', value=user_embedding_list))
+    #     result = conn.execute(stmt)
 
     matches = []
 
@@ -32,7 +35,7 @@ def match():
         raise Exception("Did not find any results.")
     else:
         for r in result:
-            matches.append(f"The name of the restaurant is {r['name']}.")
+            matches.append(r['business_id'])
 
     return matches
 
@@ -41,8 +44,7 @@ if __name__ == "__main__":
 
     try:
         matches = match()
-        for match in matches:
-            print(match)
+        print(matches)
     except Exception as e:
         print(e)
 
