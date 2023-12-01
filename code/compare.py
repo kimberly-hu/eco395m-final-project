@@ -5,23 +5,29 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 user_query = input("Enter your query: ")
 user_embedding = model.encode([user_query])
 
-def main():
+def compare():
     similarity_threshold = 0.7
     num_matches = 10
+
     q = """
         WITH vector_matches AS (
-            SELECT review_id, 1 - (embedding <=> %s) AS similarity
+            SELECT review_id, 1 - (embedding <=> %(emb)s) AS similarity
             FROM embedding
-            WHERE 1 - (embedding <=> %s) > %s
+            WHERE 1 - (embedding <=> %(emb)s) > %(sim_threshold)s
             ORDER BY similarity DESC
-            LIMIT %s
+            LIMIT %(num_matches)s
         )
         SELECT name FROM california
-        WHERE review_id IN (SELECT review_id FROM vector_matches)
+        WHERE review_id IN (SELECT review_id FROM vector_matches);
         """
+    params = {
+        'emb': user_embedding.tobytes(), 
+        'sim_threshold': similarity_threshold,
+        'num_matches': num_matches
+    }
 
     with engine.connect() as conn:
-        result = conn.execute(q, (user_embedding.tobytes(), user_embedding.tobytes(), similarity_threshold, num_matches))
+        result = conn.execute(q, params)
 
     matches = []
 
@@ -34,10 +40,12 @@ def main():
     return matches
 
 try:
-    matches = main()
+    matches = compare()
     for match in matches:
         print(match)
 except Exception as e:
     print(e)
+
+
 
           
