@@ -36,3 +36,5 @@ UPDATE california SET review_count = 0 WHERE review_count IS NULL;
 
 ALTER TABLE california ADD embedding numeric[];
 
+ALTER TABLE public.california ALTER COLUMN embedding TYPE public.vector USING embedding::public.vector::public.vector;
+
