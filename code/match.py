@@ -1,15 +1,11 @@
 from sentence_transformers import SentenceTransformer
 from sqlalchemy import create_engine, text, bindparam
 from database import engine 
-
-
 model = SentenceTransformer('all-MiniLM-L6-v2')
 conn=engine.connect()
-# conn.execute("CREATE EXTENSION IF NOT EXISTS vector")
-# register_vector(conn)
 
-def match():
-    user_query = input("Enter your query: ")
+
+def match(user_query):
     user_embedding = model.encode([user_query])[0]
     user_embedding_list=user_embedding.tolist()
     user_embedding_string= str(user_embedding_list)
@@ -70,7 +66,5 @@ limit 20
     # print(data_list)
     return data_list
 
-if __name__ == "__main__":
-    matches = match()
-    print(matches)
+
 

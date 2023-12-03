@@ -100,8 +100,3 @@ fig = px.scatter_mapbox(restaurants,
                         title = 'Interactive Map'
 )
 
-
-# Delete this when using Streamlit
-fig.show()
-
-#st.plotly_chart(fig)
