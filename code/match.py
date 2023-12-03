@@ -35,7 +35,7 @@ from
 	from
 		california c
 	where
-		1 - (c.embedding <=> :user_embedding_string) >0.55
+		1 - (c.embedding <=> :user_embedding_string) >0.7
 	order by
 		similarity desc
 	limit 100) t1
