@@ -3,7 +3,6 @@ from sqlalchemy import create_engine, text, bindparam
 from database import engine 
 
 
-
 model = SentenceTransformer('all-MiniLM-L6-v2')
 conn=engine.connect()
 # conn.execute("CREATE EXTENSION IF NOT EXISTS vector")
@@ -35,8 +34,8 @@ from
 		1 - (c.embedding <=> :user_embedding_string) as similarity
 	from
 		test_table c
-	where
-		1 - (c.embedding <=> :user_embedding_string) >0.3
+	--where
+		--1 - (c.embedding <=> :user_embedding_string) >0.3
 	order by
 		similarity desc
 	limit 100) t1
@@ -50,24 +49,29 @@ limit 20
     if result.rowcount == 0:
         raise Exception("Did not find any results.")
     else:
-        print("done")
-        # for r in result:
-        # # Convert the tuple to a dictionary
-        #     row_as_dict = {column: value for column, value in zip(result.keys(), r)}
-        # # Now you can access values using column names
-        #     matches.append(f"The name of the restaurant is {row_as_dict['name']}."
-    return result
+        rows = result.fetchall()
+        data_list = []
+        for row in rows:
+            data = {
+                'business_id': row[0],
+                'name': row[1],
+                'address': row[2],
+                'city': row[3],
+                'state': row[4],
+                'latitude': float(row[5]),
+                'longitude': float(row[6]),
+                'business_stars': float(row[7]),
+                'review_count': int(row[8]),
+                'is_open': int(row[9]),
+                'categories': row[10].split(', ')
+            }
+        data_list.append(data)
+
+    #print(data_list)
+    return data_list
 
 if __name__ == "__main__":
+    matches = match()
 
 
-    try:
-        matches = match()
-        for record in matches: 
-            print("\n", record) 
-    except Exception as e:
-        print(e)
-
-
-          
 
