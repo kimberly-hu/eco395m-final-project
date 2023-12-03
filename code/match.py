@@ -1,15 +1,8 @@
 from sentence_transformers import SentenceTransformer
 from sqlalchemy import create_engine, text, bindparam
+from database import engine 
 
-DATABASE_USERNAME="postgres"
-DATABASE_PASSWORD="321psswrd123"
-DATABASE_HOST="35.224.144.136"
-DATABASE_PORT="5432"
-DATABASE_DATABASE="yelp"
 
-SQLALCHEMY_DATABASE_URL = f"postgresql://{DATABASE_USERNAME}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_DATABASE}"
-
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 model = SentenceTransformer('all-MiniLM-L6-v2')
 conn=engine.connect()
@@ -29,7 +22,7 @@ select
 	t1.address,
 	t1.city,
 	t1.postal_code,
-	t1.latitude,
+	t1.latitute,
 	t1.longitude,
 	t1.business_stars,
 	t1.review_count,
@@ -56,13 +49,13 @@ limit 20
 
     if result.rowcount == 0:
         raise Exception("Did not find any results.")
-    else
+    else:
         print("done")
-        for r in result:
-        # Convert the tuple to a dictionary
-            row_as_dict = {column: value for column, value in zip(result.keys(), r)}
-        # Now you can access values using column names
-            matches.append(f"The name of the restaurant is {row_as_dict['name']}."
+        # for r in result:
+        # # Convert the tuple to a dictionary
+        #     row_as_dict = {column: value for column, value in zip(result.keys(), r)}
+        # # Now you can access values using column names
+        #     matches.append(f"The name of the restaurant is {row_as_dict['name']}."
     return result
 
 if __name__ == "__main__":
@@ -74,4 +67,7 @@ if __name__ == "__main__":
             print("\n", record) 
     except Exception as e:
         print(e)
+
+
+          
 
