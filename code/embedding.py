@@ -30,16 +30,19 @@ def update_embedding(review_list):
     review_text=review_list[0]
     review_id=review_list[1]
     sentence=review_text
-    embedding= model.encode(sentence)
+    embedding_raw= model.encode(sentence)
+    embedding_list=embedding_raw.tolist()
+    embedding=str(embedding_list)
+    #print(embedding)
     q="""
 UPDATE california
     SET embedding = %(embedding)s
     WHERE review_id = %(review_id)s
 """
     with engine.connect() as conn:
-        conn.execute(q, {"embedding": embedding.tolist(), "review_id": review_id})
-
-    print(review_text)
+        conn.execute(q, {"embedding": embedding, "review_id": review_id})
+    # print(embedding.tolist())
+    # print(review_text)
     return
 
 def executing():
@@ -54,3 +57,5 @@ def executing():
 
 if __name__ == "__main__":
     executing() 
+    # popped=pop()
+    # update_embedding(popped)
