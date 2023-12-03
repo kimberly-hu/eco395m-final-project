@@ -21,7 +21,7 @@ select
 	t1.address,
 	t1.city,
 	t1.postal_code,
-	t1.latitute,
+	t1.latitude,
 	t1.longitude,
 	t1.business_stars,
 	t1.review_count,
@@ -33,9 +33,9 @@ from
 		*,
 		1 - (c.embedding <=> :user_embedding_string) as similarity
 	from
-		test_table c
-	--where
-		--1 - (c.embedding <=> :user_embedding_string) >0.3
+		california c
+	where
+		1 - (c.embedding <=> :user_embedding_string) >0.55
 	order by
 		similarity desc
 	limit 100) t1
@@ -65,13 +65,12 @@ limit 20
                 'is_open': int(row[9]),
                 'categories': row[10].split(', ')
             }
-        data_list.append(data)
+            data_list.append(data)
 
-    #print(data_list)
+    # print(data_list)
     return data_list
 
 if __name__ == "__main__":
     matches = match()
-
-
+    print(matches)
 
