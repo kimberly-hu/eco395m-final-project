@@ -16,4 +16,3 @@ def recommendation():
 with st.form(key="my_form"):
     st.text_input("Any thoughts on where to eat? Enter your thoughts here and we will find you a restaurant!", key="name")
     st.form_submit_button("Enter", on_click=recommendation)
-
