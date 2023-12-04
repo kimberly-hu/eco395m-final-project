@@ -5,19 +5,19 @@ import plotly.express as px
 import os
 from dotenv import load_dotenv
 
-st.title('Santa Barbara MealMapper: Vector-Based Dining Finder')
+st.title('Santa Barbara MealMapper: Vector-Based Dining Finder📍')
 st.write("---")
 col1, col2 = st.columns(2)
-image_path = 'artifacts/DALL·E Santa Barba.png'
+image_path = 'artifacts/dallelogo.png'
 with col1:
     st.image(image_path)
 
 with col2:
-    st.subheader('Find Your Next Dining Experience')
+    st.subheader('🌟Find Your Next Dining Experience')
     with st.form(key="my_form"):
         user_input = st.text_input("Any thoughts on where to eat? Enter your thoughts here, and we will find you a restaurant!")
         submit_button = st.form_submit_button("Enter")
-
+st.write("---")
 if submit_button:
     try:
         matching_results = match(user_input)
