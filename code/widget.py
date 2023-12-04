@@ -44,7 +44,7 @@ if submit_button:
                                     lat = 'latitude',
                                     hover_name = 'name',
                                     hover_data = ['address', 'city', 'business_stars', 'review_count'],
-                                    color_discrete_sequence=['rgba(0,0,255, 1)'], 
+                                    color_discrete_sequence=['rgba(255, 165, 0, 0.9)'], 
                                     size = 'review_count',
                                     size_max = 15,
                                     zoom = 10,
