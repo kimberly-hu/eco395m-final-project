@@ -4,7 +4,9 @@
 <h3 align="center" id="heading"> Kimberly Hu, Yalun Wang, Yundi Xiao </h3>
 
 ## I. Introduction 
-
+ <p align="center"> 
+ 	<img src="https://github.com/kimberly-hu/eco395m-final-project/blob/main/artifacts/dallelogo.png"width="250" />
+ </p>
 
 ## II. Methodology 
 
