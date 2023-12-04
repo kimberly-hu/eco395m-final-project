@@ -5,7 +5,7 @@
 
 ## I. Introduction 
  <p align="center"> 
- 	<img src="https://github.com/kimberly-hu/eco395m-final-project/blob/main/artifacts/dallelogo.png"width="250" />
+ 	<img src="https://github.com/kimberly-hu/eco395m-final-project/blob/main/artifacts/dallelogo.png"width="600" />
  </p>
 
 ## II. Methodology 
@@ -18,8 +18,19 @@
 
 
 ## V. Interactive Dashboard — Santa Barbara MealMapper
+ <p align="center"> 
+ 	<img src="https://github.com/kimberly-hu/eco395m-final-project/blob/main/artifacts/final1.png"width=600" />
+ </p>
 
+ <p align="center"> 
+ 	<img src="https://github.com/kimberly-hu/eco395m-final-project/blob/main/artifacts/final2.png"width=600" />
+ </p>
 
+  <p align="center"> 
+ 	<img src="https://github.com/kimberly-hu/eco395m-final-project/blob/main/artifacts/final3.png"width=600" />
+ </p>
+ 
+ 
 ## VI. Limitation and Further Extension
 
 
