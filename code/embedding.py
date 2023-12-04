@@ -5,13 +5,15 @@ model = SentenceTransformer("all-MiniLM-L6-v2")
 
 
 def pop():
-    """get one review that has not got its embedding, this function will return a list of one review_id and its text."""
+    """Get an review that has not got its embedding. 
+    This function will return a list of one review_id and its text."""
+
     q = """
-select review_text, review_id
-from california
-where embedding is null
-limit 1
-"""
+        SELECT review_text, review_id
+        FROM california
+        WHERE embedding IS NULL
+        LIMIT 1
+        """
 
     with engine.connect() as conn:
         result = conn.execute(q)
@@ -27,9 +29,10 @@ limit 1
 
 
 def update_embedding(review_list):
-    """use the review_list from def pop() as input.
-    Then use sentence_transformer to encode the review_text and get its embedding,
-    and finally write this embedding into database through GCP."""
+    """Use the review_list from def pop() as input.
+    Use sentence_transformer to encode the review_text and get its embedding,
+    and write this embedding into database through GCP."""
+
     review_text = review_list[0]
     review_id = review_list[1]
     sentence = review_text
@@ -40,18 +43,22 @@ def update_embedding(review_list):
     embedding = str(
         embedding_list
     )  # to use pgvector,we have to make sure the embedding is string type(though it is actually a list).
+    
     q = """
-UPDATE california
-    SET embedding = %(embedding)s
-    WHERE review_id = %(review_id)s
-"""
+        UPDATE california
+        SET embedding = %(embedding)s
+        WHERE review_id = %(review_id)s
+        """
+    
     with engine.connect() as conn:
         conn.execute(q, {"embedding": embedding, "review_id": review_id})
     return
 
 
 def executing():
-    """loop def pop() and def update_embedding(review_list), untill there is no review without embedding."""
+    """Loop through def pop() and def update_embedding(review_list), 
+    untill there is no review without embedding."""
+    
     while True:
         popped_review_review_id = pop()
         if popped_review_review_id:

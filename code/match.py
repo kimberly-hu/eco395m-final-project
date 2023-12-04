@@ -17,6 +17,7 @@ def match(user_query):
     most 20 unique restaurants given the 100 reviews we have. Finally, get a
     list of dictionaries with restaurant information in it.
     """
+
     user_embedding = model.encode([user_query])[0]
     user_embedding_list = (
         user_embedding.tolist()
@@ -26,31 +27,31 @@ def match(user_query):
     )  # to use the pgvector we have to get the list into a string type
 
     q = """
-select
-	distinct t1.business_id,
-	t1.name,
-	t1.address,
-	t1.city,
-	t1.postal_code,
-	t1.latitude,
-	t1.longitude,
-	t1.business_stars,
-	t1.review_count,
-	t1.is_open,
-	t1.categories
-from
-	(
-	select
-		*,
-		1 - (c.embedding <=> :user_embedding_string) as similarity
-	from
-		california c
-	where
-		1 - (c.embedding <=> :user_embedding_string) >0.7
-	order by
-		similarity desc
-	limit 100) t1
-limit 20
+        SELECT
+            DISTINCT t1.business_id,
+            t1.name,
+            t1.address,
+            t1.city,
+            t1.postal_code,
+            t1.latitude,
+            t1.longitude,
+            t1.business_stars,
+            t1.review_count,
+            t1.is_open,
+            t1.categories
+        FROM
+            (
+            SELECT
+                *,
+                1 - (c.embedding <=> :user_embedding_string) AS similarity
+            FROM
+                california c
+            WHERE
+                1 - (c.embedding <=> :user_embedding_string) >0.7
+            ORDER BY
+                similarity DESC
+            LIMIT 100) t1
+        LIMIT 20
         """
 
     with engine.connect() as conn:
