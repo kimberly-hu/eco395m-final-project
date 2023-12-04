@@ -4,3 +4,6 @@ sqlalchemy==1.4.50
 sentence-transformers==2.2.2
 streamlit==1.29.0
 psycopg2-binary==2.9.3
+black==23.9.1
+python-dotenv==0.20.0
+plotly==5.17.0
