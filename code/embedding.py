@@ -27,7 +27,9 @@ limit 1
 
 
 def update_embedding(review_list):
-    """use the review_list from def pop() as input.Then use sentence_transformer to encode the review_text and get its embedding, and finally write this embedding into database through GCP."""
+    """use the review_list from def pop() as input.
+    Then use sentence_transformer to encode the review_text and get its embedding,
+    and finally write this embedding into database through GCP."""
     review_text = review_list[0]
     review_id = review_list[1]
     sentence = review_text
@@ -38,7 +40,6 @@ def update_embedding(review_list):
     embedding = str(
         embedding_list
     )  # to use pgvector,we have to make sure the embedding is string type(though it is actually a list).
-    # print(embedding)
     q = """
 UPDATE california
     SET embedding = %(embedding)s

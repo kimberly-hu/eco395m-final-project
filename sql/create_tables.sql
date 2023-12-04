@@ -1,3 +1,5 @@
+-- Create table for reviews
+-- To handle a large data set, the data set was divided into 7 segments.
 CREATE TABLE review_1 (
     review_id varchar(22) CONSTRAINT review_id_key PRIMARY KEY,
     user_id varchar(22),
@@ -82,6 +84,7 @@ CREATE TABLE review_7 (
     review_date date
 );
 
+--Create business table
 CREATE TABLE business (
     business_id varchar(22) CONSTRAINT business_id_key PRIMARY KEY,
     name varchar,
