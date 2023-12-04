@@ -3,13 +3,13 @@ from sqlalchemy import create_engine, text, bindparam
 from database import engine 
 model = SentenceTransformer('all-MiniLM-L6-v2')
 conn=engine.connect()
-
+conn.execute("CREATE EXTENSION IF NOT EXISTS vector")#make sure there is pgvector extension in sql
 
 def match(user_query):
+	"""First get embedding of input. And use pgvector to generate the similarity between input_embedding to the review_embedding we already had. Sort by similarity in descending order, choose first 100 reviews,and then get at most 20 unique restaurants given the 100 reviews we have. Finally get a list of dictionary with restaurant information in it.""" 
     user_embedding = model.encode([user_query])[0]
-    user_embedding_list=user_embedding.tolist()
-    user_embedding_string= str(user_embedding_list)
-    print(user_embedding_string)
+    user_embedding_list=user_embedding.tolist()#transform the encoding outcome to list
+    user_embedding_string= str(user_embedding_list)# to use the pgvector we have to get the list into a string type
     q = """
 select
 	distinct t1.business_id,
