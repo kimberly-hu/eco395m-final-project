@@ -51,7 +51,7 @@ Step 6: Return to DBeaver and refresh the database. Copy the SQL script in `sql/
 Our dashboard utilizes Plotly and Mapbox to create the interactive map. Before running Streamlit, go to [Mapbox](https://www.mapbox.com/) and get a free token, then update the environment file in your repo. The public token is sufficient for this project. Matched restaurants’ locations will be displayed on the interactive map. Two URLs will be generated, a local URL and a network URL. Open either URL to obtain the finalized interactive dashboard.
 
 ## V. Interactive Dashboard — Santa Barbara MealMapper
- Our interactive dashboard, [Santa Barbara MealMapper](http://192.168.72.225:8502) is straightforward to use. 
+ Our interactive dashboard, Santa Barbara MealMapper is straightforward to use. 
 
 Step 1: Enter your thoughts about where to eat in the input. It doesn’t even have to be where to eat. For example, if you need a place to do your homework, putting “ cafe with good WiFi so that I can finish my homework” also works! In the demo, we enter “I want authentic Chinese food but not too spicy, and close to campus” as our query.
  <p align="center"> 
