@@ -41,14 +41,13 @@ Step 6: Return to DBeaver and refresh the database. Copy the SQL script in `sql/
  Before running the analysis, install the necessary packages with `pip install -r requirements.txt`.To rerun the analysis, run the following codes stored in the code folder: `embedding.py`, `match.py`, and `widget.py`. 
 
 1. Get vector embedding with `embedding.py`:
-   Run `code/embedding.py` to get all the embeddings for reviews in our database, and save them as a column in the “yelp” PostgreSQL database on Google Cloud Platform (GCP). This generating process might take some time. In our project, it took approximately 18 hours to generate vector embeddings for all 167,990 reviews.
+   Run `code/embedding.py` to get all the embeddings for reviews in our database, and update the embedding column. This generating process might take some time. In our project, it took approximately 18 hours to generate vector embeddings for all 167,990 reviews.
 
 2. Get the recommended restaurants with `match.py`:
    Run `code/match.py`. It receives the user's query and uses `sentence tranformer: all-MiniLM-L6-v2` to get its vector embedding. Then it uses `PGvector` to generate the similarity between this input embedding and review embeddings saved in the database. It returns a list of up to 20 unique restaurants with the highest similarity and their information in a dictionary form.
 
 3. Create an interactive dashboard with `widget.py`:
-   Run `streamlit run code/widget.py` to generate the interactive dashboard. Widget.py uses the Streamlit widget feature to take the user's query. Then it passes the user’s query to the match function in match.py and returns a list of matching restaurants with their names, categories, and addresses. 
-Our dashboard utilizes Plotly and Mapbox to create the interactive map. Before running Streamlit, go to [Mapbox](https://www.mapbox.com/) and get a free token, then update the environment file in your repo. The public token is sufficient for this project. Matched restaurants’ locations will be displayed on the interactive map. Two URLs will be generated, a local URL and a network URL. Open either URL to obtain the finalized interactive dashboard.
+   Our dashboard utilizes Plotly and Mapbox to create the interactive map. Before running Streamlit, go to [Mapbox](https://www.mapbox.com/) and get a free token, then update the environment file in your repo. The public token is sufficient for this project. Run `streamlit run code/widget.py` to generate the interactive dashboard. Widget.py uses the Streamlit widget feature to take the user's query. Then it passes the user’s query to the match function in match.py and returns a list of matching restaurants with their names, categories, and addresses. Two URLs will be generated, a local URL and a network URL. Open either URL to obtain the finalized interactive dashboard. Matched restaurants’ locations will be displayed on the interactive map. 
 
 ## V. Interactive Dashboard — Santa Barbara MealMapper
  Our interactive dashboard, Santa Barbara MealMapper is straightforward to use. 
@@ -68,13 +67,15 @@ Step 2: After submitting the query, the matched restaurants are listed, and thei
  
  
 ## VI. Limitation and Further Extension
-* We recognized a few limitations with our dataset, model choice, and usage. The model we chose, `all-MiniLM-L6-v2`generates vector embeddings with 384 dimensions due to our dataset (160,000+ rows). To save the time of obtaining vector embedding, we sacrificed model dimensions with a simpler sentence transformer model. Hence, this chosen model can be relatively small and leads to less accurate results. 
+ We recognized a few limitations with our dataset, model choice, and usage. 
+
+* The model we chose, `all-MiniLM-L6-v2`generates vector embeddings with 384 dimensions due to our dataset (160,000+ rows). To save the time of obtaining vector embedding, we sacrificed model dimensions with a simpler sentence transformer model. Hence, this chosen model can be relatively small and leads to less accurate results. 
 
 * Moreover, the dataset has data collection bias because we have more restaurant information from Santa Barbara compared to other cities in California. So it also resulted in our decision to use only the subsample of Santa Barbara. 
 
-* As for the usage of the model, we noticed the more specific the query is, the better matching results our project will generate. For example, inputting cake as the query generates no results. Therefore, it performs better with more complex sentences or phrases, which suggests a limitation on the usage of our project.  
+* As for the usage of the model, we noticed the more specific the query is, the better matching results our project will generate. For example, inputting "cake" as the query generates no results. Therefore, it performs better with more complex sentences or phrases, which suggests a limitation on the usage of our project.  
 
-* We consider using a sentence transformer model to generate vector embeddings with more dimensions for both the reviews and the user's query. By using so, we can get more accurate results. The next steps will be adding more features to the matching process and interactive dashboard, such as allowing for selecting specific locations, price ranges for the restaurants, and categories of the restaurants. 
+* We consider using another sentence transformer model to generate vector embeddings with more dimensions for both the reviews and the user's query. By using so, we can get more accurate results. The next steps will be adding more features to the matching process and interactive dashboard, such as allowing for selecting specific locations, price ranges for the restaurants, and categories of the restaurants. 
 
 ## VII. Conclusion 
 Overall, our project represents a promising step towards a more efficient and personalized restaurant search. It jumped out of the existing restaurant search that only allows users to search for limited features of the diner. The MealMapper puts no boundaries on the user queries by expanding the database with vector embedding and cosine similarities search empowered by PG vector. However, limitations such as dataset bias should be considered in further extensions. We are excited about the future possibilities and refinements that can make the MealMapper provide more tailored dining recommendations to users. 
